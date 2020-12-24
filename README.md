@@ -9,5 +9,6 @@ Here I used the report by Italy's Direzione Investigativa Antimafia (DIA) report
 The binary quoted/non-quoted was the dependent variable of a number of reported crimes usually connected to mafia activities. I interpreted the logit as the activity of mafia from 0 to 1. The theory is: the more mafia is active, the more the probability it is quoted in one of the DIA reports. 
 
 ## Where is the code?
-As of Christmas 2020, the code is spread on 3 computers in two countries. I am fixing this ASAP. More details on this project are in the 
+As of Christmas 2020, the code is spread on 3 computers in two countries. I am fixing this ASAP. More details on this project are in this file:
+https://github.com/fpmassam/Mafia-Activity-Index/blob/main/MAFIA%20as%20of%20Dec%2011.pdf
 
