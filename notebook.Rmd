@@ -1,0 +1,67 @@
+---
+title: "Mafia activity index"
+author: "Francesco Piccinelli"
+output:
+  html_notebook: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(include = TRUE)
+require(ggplot2)
+require(stargazer)
+require(xtable)
+require(htmltools)
+require(htmlTable)
+require(htmltools)
+require(kableExtra)
+load("getting_serious.Rdata")
+```
+
+#Background and origin of this work
+On May 13, 2018, in Follonica, a small city by the sea in Tuscany, the manager of one of the most well known hotels in the area was killed by a member of Neaple's mafia: the Camorra. This murder was totally unrelated to criminal activities but - indirectly - provided the ultimate evidence that organized crime reached also Tuscany. The awe by people in Follonica and local policians demostrated at what extent civil society and institutions are unprepared to deal with organized crime. For sure, some 'activity' was spotted but it was left cofined in a sort of 'twilight zone' accessible only to law enforcement agencies and prosecutors. Is there a data-driven way to explore this twilight zone? I argue that there is and that is data driven.
+
+#The proceeding 
+I proceeded using either corpus analysis techniques and a logit. The dependent variable of the logit is the outcome of the corpus analysis while the independent variables are data from the Interior Ministry regarding the so-called 'spy felonies'. 'Spy felonies' are all those crimes non directly related to mafia, but which could serve as an indicator of mafia acrivity. The list will be provided below. 
+
+##The dependent variable
+I collected the reports to the Parliament by the DIA, the body which coordinates mafia investigations across the Italian law enforcement agency. I isolated the municipalities nominated in those documents, then I aggregated those municipalities by provinces. 
+
+Given the different lenght of those reports, in order to make my data comparable, I divided the aggregate sum of utterances of municipalities by 10 pages. Afterwads, I added a column to my dataset. Whn the number of quotation was larger then 0 I wrote 1 in my column. 
+
+##The independent variable
+The inddependent variables are: 
+
+  - ARSON   Arson       
+  - DAMARS  Damages after arson  
+  - DRUG    Drug Crimes
+  - EXTORT  Extortion 
+  - MAFIAHOM  Mafia Homicide
+  - MAFIASS Mafia Association
+  - MENACE  Menaces
+  - MONEYLAU  Moneylaundering
+  - PROSTI  Prostitution
+  - SMUGGL  Smuggling
+
+I used either the absolute numbers. Moreover, I computed them per 100 thousands inhabitansts (p100k_ prefix in the tables)
+
+
+##The regression:
+I regressed using a logit in order to measure the prbability that a province was quoted in one of the Dia reports. This probability is what I defined as the 'Mafia Activity Index". Here is the map of this index
+
+```{r maps}
+
+ggplot(italy.df, aes(x = long, y = lat, group = group)) + geom_polygon(aes(fill = prob_unrestricted)) + geom_path() +facet_wrap(.~year) + scale_fill_gradient2(low = "ivory", high = "black", mid = "grey", name = "Activity Index", guide = guide_colourbar(barwidth = .5, barheight = 10, label.position = "left")) + coord_equal() + theme_void() + ggtitle("Mafia activity in Italy")
+
+
+```
+
+
+
+###Regression results:
+
+```{r regressions, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+summary(logit_unrestricted)
+```
+
+
